@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='CSS/style.css') }}">
+</head>
+<body>
+    <h1>Gráfico da Violência X PIB</h1>
+
+    <form action="/grafvioleciapib" METHOD="POST">
+        <label>Digite a quantidade de cidades mais violentas que você quer filtrar</label>
+        <input type="text" name="valor">
+        <button type="submit">Filtrar</button>
+
+    </form>
+
+    {{plot|safe}}
+
+</body>
+</html>
