@@ -2,8 +2,12 @@ from flask import *
 import dao
 import dataanalise as da
 import plotly.express as px
+import plotly.graph_objects as go
+
+
 
 app = Flask(__name__)
+
 
 @app.route('/correlacaoindicadores', methods=['GET', 'POST'])
 def calcular_correlacao_individual():
@@ -14,12 +18,14 @@ def calcular_correlacao_individual():
         ind2 = request.form.get('indicador2')
         dados, correlacao = da.correlacionar_indicadores(ind1, ind2)
         dados.columns = [ind1, ind2]
-        fig = px.line(dados, x=dados.index, y=dados[ind1])
-        return render_template('correlacaoResultado.html',plot = fig.to_html())
+        fig = da.gerarGrafCorrInd(dados)
+
+        return render_template('correlacaoResultado.html', plot=fig.to_html())
+
+        # return f'<h1>{correlacao}</h1>'
 
 
-        #return f'<h1>{correlacao}</h1>'
-@app.route('/cadastrarusuario',methods=['GET','POST'])
+@app.route('/cadastrarusuario', methods=['GET', 'POST'])
 def redirecionar_cadastro_user():
     if request.method == 'GET':
         return render_template('cadastrarusuario.html')
@@ -27,14 +33,11 @@ def redirecionar_cadastro_user():
         login = str(request.form.get('nome'))
         senha = str(request.form.get('senha'))
 
-        if dao.inserirDB(login,senha,dao.conectardb()):
+        if dao.inserirDB(login, senha, dao.conectardb()):
             return render_template('index2.html')
         else:
             texto = 'e-mail já cadastrado'
-            return render_template('index2.html',msg=texto)
-
-
-
+            return render_template('index2.html', msg=texto)
 
 
 @app.route('/login', methods=['POST'])
@@ -42,13 +45,13 @@ def cadastrar_usuario():
     nome = str(request.form.get('nome'))
     senha = str(request.form.get('senha'))
 
-
-    if dao.verificarlogin(nome, senha,dao.conectardb()):
+    if dao.verificarlogin(nome, senha, dao.conectardb()):
         return render_template('menu.html')
     else:
         return render_template('index2.html')
 
-@app.route('/grafvioleciapib', methods=['POST','GET'])
+
+@app.route('/grafvioleciapib', methods=['POST', 'GET'])
 def gerarGrafViolenciaPib():
     if request.method == 'POST':
         filtro = int(request.form.get('valor'))
@@ -63,6 +66,7 @@ def gerarGrafViolenciaPib():
     fig = px.scatter(dados, x='rendapercapita', y='cvli', hover_data=['municipio'])
     return render_template('grafviolenciapib.html', plot=fig.to_html())
 
+
 @app.route('/grafcorrelacao')
 def gerarGrafCorrelacao():
     dados = da.lerdados()
@@ -70,15 +74,6 @@ def gerarGrafCorrelacao():
 
     return render_template('grafcorrelacao.html', mapa=fig2.to_html())
 
-@app.route('/melhoresedu')
-def exibirmunicipiosedu():
-    data = da.lerdados()
-
-    data['somaedu'] = data['idebanosiniciais'] + data['idebanosfinais']
-    data.sort_values(by=['somaedu'], ascending=False, inplace=True)
-    fig = da.exibirgraficobarraseduc(data.head(15))
-
-    return render_template('melhoresedu.html', figura=fig.to_html())
 
 @app.route('/menu')
 def menu():
@@ -88,6 +83,7 @@ def menu():
 @app.route('/')
 def motormanda():
     return render_template('index2.html')
+
 
 if __name__ == '__main__':
     app.run(debug=True, port=5001)
