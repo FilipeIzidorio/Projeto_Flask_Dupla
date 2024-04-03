@@ -50,36 +50,39 @@
         <div class="formbg-outer">
           <div class="formbg">
             <div class="formbg-inner padding-horizontal--48">
+              <span class="padding-bottom--15">Escolher indicadores - consumo de energia</span>
 
-              <div class="field padding-bottom--24">
-                  <input type="submit" name="submit" value="Empregos formais gerados por Estados" onclick="window.location.href='/correlacaoindicadores';">
-              </div>
-              <div class="field padding-bottom--24">
-                  <input type="submit" name="submit" value="Comparar consumo de energia res por região" onclick="window.location.href='/consumoenergia';">
-              </div>
-              <div class="field padding-bottom--24">
-                  <input type="submit" name="submit" value="Adicionar mais funcionalidades" onclick="window.location.href='/grafcorrelacao';">
-              </div>
-              <div class="field padding-bottom--24">
-                  <input type="submit" name="submit" value="Adicionar mais funcionalidades" onclick="window.location.href='/grafcorrelacao';">
-              </div>
-              <div class="field padding-bottom--24">
-                  <input type="submit" name="submit" value="Adicionar mais funcionalidades" onclick="window.location.href='/grafcorrelacao';">
-              </div>
-              <div class="field padding-bottom--24">
-                  <input type="submit" name="submit" value="Adicionar mais funcionalidades" onclick="window.location.href='/grafcorrelacao';">
-              </div>
-              <div class="field padding-bottom--24">
-                  <input type="submit" name="submit" value="Adicionar mais funcionalidades" onclick="window.location.href='/grafcorrelacao';">
-              </div>
-            </div>
-          </div>
-          <div class="footer-link padding-top--24">
-            <span>Colocar algum link <a href="">Sign up</a></span>
-            <div class="listing padding-top--24 padding-bottom--24 flex-flex center-center">
+              <form action="/consumoenergia" id="stripe-login" method="post">
+                <div class="field padding-bottom--24">
+                  <select name="indicador1">
+                      <option value="Consumo de energia elétrica – residencial – região Nordeste">Nordeste</option>
+                      <option value="Consumo de energia elétrica – residencial – Região Sul">Sul</option>
+                      <option value="Consumo de energia elétrica – residencial – região Norte">Norte</option>
+                  </select>
+                </div>
+                <div class="field padding-bottom--24">
+                  <div class="grid--50-50">
+                  <select name="indicador2">
+                      <option value="Consumo de energia elétrica – residencial – região Nordeste">Nordeste</option>
+                      <option value="Consumo de energia elétrica – residencial – Região Sul">Sul</option>
+                      <option value="Consumo de energia elétrica – residencial – região Norte">Norte</option>
+                  </select>
+                  </div>
+                </div>
+
+                <div class="field padding-bottom--24">
+                  <input type="submit" name="submit" value="Calcular Correlação">
+                </div>
+
+              </form>
+
+              <a style="color:red">{{ msg }}</a>
+
 
             </div>
+
           </div>
+
         </div>
       </div>
     </div>
