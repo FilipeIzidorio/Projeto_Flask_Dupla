@@ -13,9 +13,19 @@ def conectardb():
     )
     return con
 
+def conectardbComRender():
+    con = psycopg2.connect(
+        host='dpg-co6v1f20si5c73auj7v0-a',
+        database='datap5',
+        user='datap5_user',
+        password='G16jO7kT72GZpeG5XEwg6jbpGv6Y5OS6'
+    )
+    return con
+
+
+
 def inseriruser(login, senha, conexao):
     cur = conexao.cursor()
-    exito = False
     try:
         sql = f"INSERT INTO usuarios (login, senha) VALUES ('{login}', '{senha}' )"
         cur.execute(sql)
@@ -60,7 +70,6 @@ def correlacionar_indicadores_e_inserir_bd(indicador1, indicador2, conexao):
     geral = pd.concat([dados1, dados2], axis=1)
     correlacao_valor = geral.corr().values[0][1]
 
-
     cur = conexao.cursor()
     try:
         sql = f"INSERT INTO correlacoes (indicador1, indicador2, valor_correlacao) VALUES ('{indicador1}', '{indicador2}', {correlacao_valor})"
@@ -75,3 +84,5 @@ def correlacionar_indicadores_e_inserir_bd(indicador1, indicador2, conexao):
         conexao.close()
 
     return exito
+
+

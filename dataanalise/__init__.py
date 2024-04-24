@@ -1,4 +1,5 @@
 import pandas as pd
+import plotly.graph_objects as go
 import plotly.express as px
 
 
@@ -59,10 +60,6 @@ def correlacionar_indicadores(indicador1, indicador2):
     return correlacao
 
 
-
-
-
-import plotly.graph_objects as go
 
 def gerarGrafCorrInd(graficodados):
     fig = go.Figure()
